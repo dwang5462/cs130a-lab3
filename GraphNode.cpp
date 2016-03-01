@@ -7,7 +7,13 @@ GraphNode::GraphNode() {
 	this->adjTail = NULL;
 	this->dataIndex = 0;
 }
-	
+
+GraphNode::GraphNode(std::string key){
+	this->key = key;
+	this->adjRoot = NULL;
+	this->adjTail = findTail();
+	this->dataIndex = 0;
+}
 GraphNode::GraphNode(std::string key, friendNode * adjRoot, int dataIndex){
 	this->key = key;
 	this->adjRoot = adjRoot;
@@ -49,4 +55,11 @@ friendNode * GraphNode::findTail(){
 void GraphNode::addFriend(friendNode * newFriend){
 	adjTail->next = newFriend;
 	adjTail = newFriend;
+}
+
+void GraphNode::printFriendList(){
+	for(friendNode* n = adjRoot; n!=findTail();n=n->next){
+		std::cout<<"("<<n->name<<",";
+	}
+	std::cout<<findTail()<<")";
 }

@@ -3,10 +3,12 @@
 
 #include "friendNode.h"
 #include <string>
+#include <iostream>
 
 class GraphNode{
 public:
 	GraphNode();
+	GraphNode(std::string key);
 	GraphNode(std::string key, friendNode * adjRoot, int dataIndex);
 	std::string getKey();
 	friendNode * getAdjRoot();
@@ -16,6 +18,7 @@ public:
 	void setDataIndex(int dataIndex);
 	friendNode * findTail();
 	void addFriend(friendNode * newFriend);
+	void printFriendList();
 
 
 private:
