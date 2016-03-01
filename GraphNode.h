@@ -16,7 +16,6 @@ public:
 	void setKey(std::string key);
 	void setAdjRoot(friendNode * newRoot);
 	void setDataIndex(int dataIndex);
-	friendNode * findTail();
 	void addFriend(friendNode * newFriend);
 	void printFriendList();
 
@@ -24,7 +23,6 @@ public:
 private:
 	std::string key;
 	friendNode * adjRoot;
-	friendNode * adjTail;
 	int dataIndex;
 };
 

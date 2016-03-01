@@ -14,7 +14,7 @@ int friendshipGraph::hash(std::string str, int seed) {
 }
 
 void friendshipGraph::insertGraphNode(GraphNode * n){
-	if(lookup(n->getKey())==-1){
+        if(lookup(n->getKey())!=-1){
 		return;
 	}
 	int index = hash(n->getKey(),0);
@@ -64,7 +64,7 @@ void friendshipGraph::print(){
 		if(table[i]!=NULL){
 			std::cout<<"["<<table[i]->getKey()<<": ";
 			table[i]->printFriendList();
-			std::cout<<"]\n";
+                        std::cout<<"]";
 		}
 	}
 	std::cout << "}\n";

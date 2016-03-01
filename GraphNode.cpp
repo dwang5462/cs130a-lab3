@@ -3,21 +3,18 @@
 
 GraphNode::GraphNode() {
 	this->key = "";
-	this->adjRoot = NULL;
-	this->adjTail = NULL;
+        this->adjRoot = NULL;
 	this->dataIndex = 0;
 }
 
 GraphNode::GraphNode(std::string key){
 	this->key = key;
-	this->adjRoot = NULL;
-	this->adjTail = findTail();
+        this->adjRoot = NULL;
 	this->dataIndex = 0;
 }
 GraphNode::GraphNode(std::string key, friendNode * adjRoot, int dataIndex){
 	this->key = key;
 	this->adjRoot = adjRoot;
-	this->adjTail = findTail();
 	this->dataIndex = dataIndex;
 }
 	
@@ -45,21 +42,22 @@ void GraphNode::setDataIndex(int dataIndex){
 	this->dataIndex = dataIndex;
 }
 
-friendNode * GraphNode::findTail(){
-	friendNode * n;
-	for(n = adjRoot;n->next!=NULL;n=n->next) {
-	}
-	return n;
-}
-
 void GraphNode::addFriend(friendNode * newFriend){
-	adjTail->next = newFriend;
-	adjTail = newFriend;
+        if(adjRoot == NULL){
+            adjRoot = newFriend;
+        }
+        else{
+            newFriend->next = adjRoot;
+            adjRoot = newFriend;
+        }
 }
 
 void GraphNode::printFriendList(){
-	for(friendNode* n = adjRoot; n!=findTail();n=n->next){
+    if(adjRoot != NULL) {
+        friendNode* n;
+        for(n = adjRoot; n->next!=NULL;n=n->next){
 		std::cout<<"("<<n->name<<",";
 	}
-	std::cout<<findTail()<<")";
+        std::cout<<n->name<<")";
+    }
 }
