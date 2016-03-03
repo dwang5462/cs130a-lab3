@@ -62,7 +62,7 @@ void friendshipGraph::print(){
 	std::cout << "{";
 	for (int i=0;i<TABLE_SIZE;i++){
 		if(table[i]!=NULL){
-			std::cout<<"["<<table[i]->getKey()<<": ";
+			std::cout<<"["<<table[i]->getKey()<<"("<<table[i]->getDataIndex()<<"): ";
 			table[i]->printFriendList();
                         std::cout<<"]";
 		}
