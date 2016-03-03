@@ -9,7 +9,7 @@
 class friendshipGraph {
 public:
 	friendshipGraph();
-	int hash(std::string str, int seed=0);
+	int hash(std::string str, int seed);
 	int lookup(std::string key);
 	void insertGraphNode(GraphNode * n);
 	void addFriend(std::string name1, std::string name2);

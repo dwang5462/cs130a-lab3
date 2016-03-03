@@ -3,7 +3,7 @@
 
 GraphNode::GraphNode() {
 	this->key = "";
-        this->adjRoot = NULL;
+    this->adjRoot = NULL;
 	this->dataIndex = 0;
 }
 

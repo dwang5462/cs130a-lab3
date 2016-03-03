@@ -1,0 +1,5 @@
+davidw,21,student,daviddu,bob
+daviddu,20,student,davidw,bob,joe
+joe,50,teacher,jim,bob,daviddu
+bob,24,homeless,davidw,daviddu,joe
+jim,45,also homeless,joe,bob
