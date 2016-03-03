@@ -10,7 +10,6 @@ int main(){
 	friendshipGraph g;
 	fseeker seeker;
 	seeker.go(g);
-	std::cout << "test1" <<std::endl;
 	// g.insertGraphNode(Bob);
 	// GraphNode* Joe = new GraphNode("Joe");
 	// g.insertGraphNode(Joe);
