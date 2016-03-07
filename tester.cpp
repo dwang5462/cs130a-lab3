@@ -7,20 +7,22 @@
 using namespace std;
 
 int main(){
-	friendshipGraph g;
-	//fseeker seeker;
-	//seeker.go(g);
-	// g.insertGraphNode(Bob);
-	 GraphNode* Joe = new GraphNode("Joe");
-	 g.insertGraphNode(Joe);
-	 std::cout << "after joe\n";
-	 GraphNode* Jim = new GraphNode("Jim");
-	 g.insertGraphNode(Jim);
-	 g.addFriend("Bob", "Jim");
-	 g.addFriend("Jim","Joe");
-	 g.addFriend("Bob","Joe");
-	 std::cout<<"before print\n";
+	
+	/*
+	GraphNode* Joe = new GraphNode("Joe");
+	g.insertGraphNode(Joe);
+	GraphNode* Jim = new GraphNode("Jim");
+	g.insertGraphNode(Jim);
+	GraphNode* Bob = new GraphNode("Bob");
+	g.insertGraphNode(Bob);
+	g.addFriend("Bob", "Jim");
+	g.addFriend("Jim","Joe");
+	g.addFriend("Bob","Joe");
 	g.print();
+	*/
+
+	fseeker test;
+	test.go();
 
 	return 0;
 }

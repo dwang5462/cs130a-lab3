@@ -1,7 +1,9 @@
 #include "fseeker.h"
+#include <fstream>
 
 fseeker::fseeker() {
-	pfile = fopen("ProfileData.txt", "w");
+	pFile = fopen("ProfileData.txt", "w");
+	readFile = NULL;
 }
 
 std::vector<std::string> fseeker::split(std::string str, char delimiter) {
@@ -17,44 +19,77 @@ std::vector<std::string> fseeker::split(std::string str, char delimiter) {
 	return internal;
 }
 
-void fseeker::initialize(friendshipGraph * graph) {
-	std::ifstream f;
-	f.open("input.txt", std::ios::in);
-	if(!f) std::cerr << "File not found" << std::endl;
-	else
-	{
-		FILE *pFile;
-		pFile = fopen("ProfileData.txt","w");
-		std::string line;
-		while(std::getline(f, line))
-		{
-			std::vector<std::string> words = split(line, ',');
-			GraphNode * newNode = new GraphNode();
-			newNode->setKey(words[0]);
-			for(int i = 3; i < words.size();i++) {
-				friendNode * newfriend = new friendNode(words[i],NULL);
-				newNode->addFriend(newfriend);
-			}
-			graph->insertGraphNode(newNode);
-			int index = newNode->getDataIndex();
-			int profileIndex = 53*index;
-			fseek(pFile, profileIndex, SEEK_SET);
-			char* name = new char[words[0].size()+1];
-			memcpy(name,words[0].c_str(),words[0].size()+1);
-			fputs(name,pFile);
-			fseek(pFile, 20-strlen(name), SEEK_CUR);
-			char* age = new char[words[1].size()+1];
-			memcpy(age,words[1].c_str(),words[1].size()+1);
-			fputs(age,pFile);
-			fseek(pFile, 3-strlen(age),SEEK_CUR);
-			char* occupation = new char[words[2].size()+1];
-			memcpy(occupation,words[2].c_str(),words[2].size()+1);
-			fputs(occupation,pFile);
-		}
-		fclose(pFile);
-	}
+std::string fseeker::getName(int index)
+{
+	std::string result;
+	char name[20];
+	readFile = fopen("ProfileData.txt","r");
+	int profileIndex = index * 53;
+	fseek(readFile, profileIndex, SEEK_SET);
+	fgets(name, 20, readFile);
+	result = std::string(name);
+	stripWord(result);
+	fclose(readFile);
+	return result;
+}
+
+std::string fseeker::getAge(int index)
+{
+	std::string result;
+	char age[3];
+	readFile = fopen("ProfileData.txt", "r");
+	int profileIndex = index * 53 + 20;
+	fseek(readFile, profileIndex, SEEK_SET);
+	fgets(age, 3, readFile);
+	result = std::string(age);
+	stripWord(result);
+	fclose(readFile);
+	return result;
+}
+
+std::string fseeker::getOccupation(int index)
+{
+	std::string result;
+	char occupation[30];
+	readFile = fopen("ProfileData.txt", "r");
+	int profileIndex = index * 53 + 23;
+	fseek(readFile, profileIndex, SEEK_SET);
+	fgets(occupation, 30, readFile);
+	result = std::string(occupation);
+	stripWord(result);
+	fclose(readFile);
+	return result;
 }
 
 void fseeker::insert(std::string name, std::string age, std::string occupation, int index) {
-	
+	int profileIndex = index * 53;
+	fseek(pFile, profileIndex, SEEK_SET);
+	char* name1 = new char[name.length() + 1];
+	memcpy(name1, name.c_str(), name.length() + 1);
+	fputs(name1, pFile);
+	fseek(pFile, 20 - strlen(name1), SEEK_CUR);
+	char* age1 = new char[age.length() + 1];
+	memcpy(age1, age.c_str(), age.length() + 1);
+	fputs(age1, pFile);
+	fseek(pFile, 3 - strlen(age1), SEEK_CUR);
+	char* occupation1 = new char[occupation.length() + 1];
+	memcpy(occupation1, occupation.c_str(), occupation.length() + 1);
+	fputs(occupation1, pFile);
 }
+
+bool fseeker::isWordChar(char c) {
+	return
+		(c >= 65 && c <= 90) ||   // upper case
+		(c >= 97 && c <= 122) ||  // lower case
+		(c >= 48 && c <= 57);    // digits
+}
+
+std::string fseeker::stripWord(std::string word) {
+
+	while (!(isWordChar(word[word.length() - 1]))) {
+		word.erase(word.end() - 1);
+	}
+
+	return word;
+}
+

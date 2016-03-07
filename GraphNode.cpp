@@ -9,7 +9,7 @@ GraphNode::GraphNode() {
 
 GraphNode::GraphNode(std::string key){
 	this->key = key;
-        this->adjRoot = NULL;
+    this->adjRoot = NULL;
 	this->dataIndex = 0;
 }
 GraphNode::GraphNode(std::string key, friendNode * adjRoot, int dataIndex){

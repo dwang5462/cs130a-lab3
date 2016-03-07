@@ -5,6 +5,7 @@
 #include "friendNode.h"
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 class friendshipGraph {
 public:
