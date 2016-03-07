@@ -16,6 +16,7 @@ public:
 	fseeker();
 	std::vector<std::string> split(std::string str, char delimiter);
 	void initialize(friendshipGraph * graph);
+	void insert(std::string name, std::string age, std::string occupation);
 	
 private:
 	File * pfile;
