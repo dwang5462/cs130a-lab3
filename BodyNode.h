@@ -1,6 +1,6 @@
 #pragma once
-#ifndef BODYNODE.H
-#define BODYNODE.H
+#ifndef BODYNODE_H
+#define BODYNODE_H
 
 #include <string>
 #include "GraphNode.h"

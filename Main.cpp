@@ -45,9 +45,17 @@ int main() {
 			fputs(occupation, seeker.pFile);
 		}
 	}
-	std::cout << "Name: " << seeker.getName(0);
+	/*std::cout << "Name: " << seeker.getName(0);
 	std::cout << " Age: " << seeker.getAge(0);
 	std::cout << " Occupation: ";
 	std::cout << seeker.getOccupation(0) << std::endl;
-	g.print();
+	g.print();*/
+	for (int i = 0; i < numAdded; i++) {
+		std::cout << "Name: " << seeker.getName(i) << ", ";
+		std::cout << " Age: " << seeker.getAge(i) << ", " ;
+		std::cout << " Occupation: " << seeker.getOccupation(i) << ", ";
+		std::cout << "Friends: ";
+		g.printFriends(seeker.getName(i));
+		std::cout << ")\n";
+	}
 }

@@ -3,6 +3,7 @@
 
 #include "GraphNode.h"
 #include "friendNode.h"
+#include "fseeker.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -15,6 +16,8 @@ public:
 	void insertGraphNode(GraphNode * n);
 	void addFriend(std::string name1, std::string name2);
 	void print();
+	void printFriends(std::string key);
+
 
 
 

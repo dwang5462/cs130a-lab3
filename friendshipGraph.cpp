@@ -81,3 +81,9 @@ void friendshipGraph::print(){
 	}
 	std::cout << "}\n";
 }
+
+void friendshipGraph::printFriends(std::string key)
+{
+	int index = lookup(key);
+	table[index]->printFriendList();
+}

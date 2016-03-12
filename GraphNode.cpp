@@ -56,8 +56,8 @@ void GraphNode::printFriendList(){
     if(adjRoot != NULL) {
         friendNode* n;
         for(n = adjRoot; n->next!=NULL;n=n->next){
-		std::cout<<"("<<n->name<<",";
+		std::cout<<n->name<<",";
 	}
-        std::cout<<n->name<<")";
+        std::cout<<n->name;
     }
 }
