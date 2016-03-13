@@ -5,9 +5,9 @@
 #include <string>
 #include "GraphNode.h"
 
-#include "BTreeNode.h"
+//class BTreeNode;
 
-public class LeafNode {
+class LeafNode {
 
 public:
 
@@ -22,23 +22,15 @@ public:
 	LeafNode * getRightLeaf();
 	void setLeftLeaf(LeafNode * leftLeaf);
 	void setRightLeaf(LeafNode * rightLeaf);
-	BTreeNode * getLeftParent();
-	BTreeNode * getRightParent();
-	void setLeftParent(BTreeNode * leftParent);
-	void setRightParent(BTreeNode * rightParent);
-	BTreeNode * split(GraphNode * toAdd);
-
 
 
 private:
 
 	int numLeaves;
 	bool isFirstLeaf;
-	GraphNode * leaves[3];
+	GraphNode * leaves[4];
 	LeafNode * left;
 	LeafNode * right;
-	BTreeNode * leftParent;
-	BTreeNode * rightParent;
 
 
 

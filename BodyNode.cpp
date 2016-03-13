@@ -3,30 +3,30 @@
 
 BodyNode::BodyNode()
 {
+	for (int i = 0; i < 6; i++)
+		nodeChildren[i] = NULL;
 	for (int i = 0; i < 5; i++)
-		children[i] = NULL;
-	for (int i = 0; i < 4; i++)
 		keys[i] = "";
-	for (int i = 0; i < 3; i++)
-		leafItems[i] = NULL;
-	isLeaf = false;
+	for (int i = 0; i < 6; i++)
+		leafChildren[i] = NULL;
+	isPreLeaf = false;
 	parent = NULL;
-	numContained = 0;
-	minKeys = 2;
+	numKeys = 0;
+	numChildren = 0;
 }
 
-BodyNode::BodyNode(bool isLeaf)
+BodyNode::BodyNode(bool isPreLeaf)
 {
+	for (int i = 0; i < 6; i++)
+		nodeChildren[i] = NULL;
 	for (int i = 0; i < 5; i++)
-		children[i] = NULL;
-	for (int i = 0; i < 4; i++)
 		keys[i] = "";
-	for (int i = 0; i < 3; i++)
-		leafItems[i] = NULL;
-	this->isLeaf = isLeaf;
+	for (int i = 0; i < 6; i++)
+		leafChildren[i] = NULL;
+	this->isPreLeaf = isPreLeaf;
 	parent = NULL;
-	numContained = 0;
-	minKeys = 2;
+	numKeys = 0;
+	numChildren = 0;
 }
 
 void BodyNode::setParent(BodyNode * parent)
@@ -39,170 +39,202 @@ BodyNode * BodyNode::getParent()
 	return parent;
 }
 
-void BodyNode::setMinKey(int minKeys)
+void BodyNode::setIsPreLeaf(bool isPreLeaf)
 {
-	this->minKeys = minKeys;
+	this->isPreLeaf = isPreLeaf;
 }
 
-int BodyNode::getMinKey()
+bool BodyNode::getIsPreLeaf()
 {
-	return this->minKeys;
+	return this->isPreLeaf;
 }
 
-void BodyNode::setIsLeaf(bool isLeaf)
+void BodyNode::setNumKeys(int numKeys)
 {
-	this->isLeaf = isLeaf;
+	this->numKeys = numKeys;
 }
 
-bool BodyNode::getIsLeaf()
+int BodyNode::getNumKeys()
 {
-	return this->isLeaf;
+	return this->numKeys;
 }
 
-void BodyNode::setNumContained(int numContained)
-{
-	this->numContained = numContained;
+void BodyNode::setNumChildren(int numChildren){
+	this->numChildren = numChildren;
 }
-
-int BodyNode::getNumContained()
-{
-	return this->numContained;
-}
-
-void BodyNode::setPrev(BodyNode * prev)
-{
-	this->prevLeaf = prev;
-}
-
-BodyNode * BodyNode::getPrev()
-{
-	return prevLeaf;
-}
-
-void BodyNode::setNext(BodyNode * next)
-{
-	this->nextLeaf = next;
-}
-
-BodyNode * BodyNode::getNext()
-{
-	return nextLeaf;
+	
+int BodyNode::getNumChildren(){
+	return this->numChildren;
 }
 
 void BodyNode::printNode()
 {
 	std::cout << "(";
-	for (int i = 0; i < numContained-1; i++) {
+	for (int i = 0; i < numKeys-1; i++) {
 		std::cout << keys[i] << ",";
 	}
-	std::cout << keys[numContained - 1] << ")\n";
+	std::cout << keys[numKeys - 1] << ")\n";
 }
 
-BodyNode * BodyNode::getChild(int pointerNum)
+BodyNode * BodyNode::getNodeChild(int pointerNum)
 {
-	if(pointerNum >= 0 && pointerNum < 5)
-	return this->children[pointerNum];
+	if(pointerNum >= 0 && pointerNum < 6)
+		return this->nodeChildren[pointerNum];
 }
 
-void * BodyNode::setChild(BodyNode * newChild, int pointerNum)
-{
-	if (pointerNum >= 0 && pointerNum < 5)
-		children[pointerNum] = newChild;
+LeafNode * BodyNode::getLeafChild(int pointerNum){
+	if(pointerNum >= 0 && pointerNum < 6)
+		return this->leafChildren[pointerNum];
 }
 
-BodyNode * BodyNode::insertKey(std::string newKey)
+void * BodyNode::setNodeChild(BodyNode * newChild, int pointerNum)
 {
-	if (!isFull()) {
-		if (numContained == 0) {
+	if (pointerNum >= 0 && pointerNum < 6)
+		nodeChildren[pointerNum] = newChild;
+}
+
+void * BodyNode::setLeafChild(LeafNode * newChild, int pointerNum){
+	if(pointerNum >= 0 && pointerNum < 6)
+		leafChildren[pointerNum] = newChild;
+}
+
+void BodyNode::insertKey(std::string newKey)
+{
+	if (!isKeysFull()) {
+		if (numKeys == 0) {
 			keys[0] = newKey;
 		}
-		else if (numContained == 1) {
-			if (newKey.compare(keys[0]) < 0) {
-				keys[1] = keys[0];
-				keys[0] = newKey;
-			}
-			else {
-				keys[1] = newKey;
-			}
-		}
 		else {
 			//create for loop comparisons here
 			int index = 0;
-			if (newKey.compare(keys[0]) > 0 && newKey.compare(keys[1]) < 0) {
-				index = 1;
-			}
-			if (newKey.compare(keys[1]) > 0) {
-				index = 2;
-			}
-			if (numContained == 3) {
-				if (newKey.compare(keys[2]) > 0) {
-					index = 3;
-				}
-			}
-			for (int i = index; i < numContained; i++) {
-				keys[i + 1] = keys[i];
-			}
-			keys[index] = newKey;
-		}
-		numContained++;
-	}
-}
-
-void BodyNode::insertLeafItem(GraphNode * leafItem)
-{
-	if (isFull()) {
-		if (numContained == 0) {
-			leafItems[0] = leafItem;
-		}
-		/*else if (numContained == 1) {
-			if (leafItem->getKey().compare(leafItems[0]->getKey()) < 0) {
-				leafItems[1] = leafItems[0];
-				leafItems[0] = leafItem;
-			}
+			if (newKey.compare(keys[numKeys - 1]) > 0)
+				index = numKeys;
 			else {
-				leafItems[1] = leafItem;
-			}
-		}*/
-		else {
-			//create for loop comparisons here
-			int index = 0;
-			if (leafItem->getKey().compare(leafItems[numContained - 1]->getKey()) > 0)
-				index = numContained;
-			else {
-				for (int i = 0; i < numContained; i++) {
-					if (leafItem->getKey().compare(leafItems[i]->getKey()) < 0) {
+				for (int i = 0; i < numKeys; i++) {
+					if (newKey.compare(keys[i]) < 0) {
 						index = i;
 						break;
 					}
 				}
 			}
-			/*
-			if (leafItem->getKey().compare(leafItems[0]->getKey()) > 0 && leafItem->getKey().compare(leafItems[1]->getKey()) < 0) {
-				index = 1;
-			}
-			if (leafItem->getKey().compare(leafItems[1]->getKey()) > 0) {
-				index = 2;
-			}
-			if (numContained == 3) {
-				if (leafItem->getKey().compare(leafItems[2]->getKey()) > 0) {
-					index = 3;
-				}
-			}*/
-			for (int i = index; i < numContained; i++) {
+			for (int i = index; i < numKeys; i++) {
 				keys[i + 1] = keys[i];
 			}
-			leafItems[index] = leafItem;
+			keys[index] = newKey;
 		}
-		numContained++;
+		numKeys++;
 	}
 }
 
-bool BodyNode::isFull()
+// void insertNodeChild(BodyNode * toAdd){
+// 	if (!isChildrenFull()) {
+// 		if (numChildren == 0) {
+// 			nodeChildren[0] = toAdd;
+// 		}
+// 		else {
+// 			//create for loop comparisons here
+// 			int index = 0;
+// 			if (toAdd.compare(nodeChildren[numChildren - 1]) > 0)
+// 				index = numChildren;
+// 			else {
+// 				for (int i = 0; i < numChildren; i++) {
+// 					if (newKey.compare(keys[i] < 0) {
+// 						index = i;
+// 						break;
+// 					}
+// 				}
+// 			}
+// 			for (int i = index; i < numKeys; i++) {
+// 				keys[i + 1] = keys[i];
+// 			}
+// 			keys[index] = newKey;
+// 		}
+// 		numKeys++;
+// 	}
+// }
+
+BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 {
-	if (isLeaf && numContained == 3) {
-		return true;
+	leafChildren[leafIndex]->insertLeafNode(leafItem);
+	if(leafChildren[leafIndex]->isFull()){
+		LeafNode * left = new LeafNode();
+		LeafNode * right = new LeafNode();
+		left->insertLeafNode(leafChildren[leafIndex]->getLeafNode(0));
+		left->insertLeafNode(leafChildren[leafIndex]->getLeafNode(1));
+		right->insertLeafNode(leafChildren[leafIndex]->getLeafNode(2));
+		right->insertLeafNode(leafChildren[leafIndex]->getLeafNode(3));
+		if(leafChildren[leafIndex]->getIsFirstLeaf()){
+			left->setIsFirstLeaf(true);
+		}
+		if(isChildrenFull() == false){
+			for(int i = leafIndex+1; i < 6; i++){
+				leafChildren[i+1] = leafChildren[i];
+			}
+		}
+		leafChildren[leafIndex] = left;
+		leafChildren[leafIndex+1] = right;
+		std::string toAdd = right->getLeafNode(0)->getKey();
+		insertKey(toAdd);
+		if(isKeysFull()){
+			return splitBodyNode(this);
+		}
 	}
-	else if (numContained == 4) {
+	return this;
+}
+
+BodyNode * splitBodyNode(BodyNode * splitter){
+	BodyNode * left = new BodyNode(true);
+	BodyNode * right = new BodyNode(true);
+	BodyNode * parent;
+	if(splitter->getIsPreLeaf() == true){
+		left->setLeafChild(splitter->getLeafChild(0), 0);
+		left->setLeafChild(splitter->getLeafChild(1), 1);
+		left->setLeafChild(splitter->getLeafChild(2), 2);
+		left->insertKey(splitter->getKey(0));
+		left->insertKey(splitter->getKey(1));
+		right->setLeafChild(splitter->getLeafChild(3), 0);
+		right->setLeafChild(splitter->getLeafChild(4), 1);
+		right->setLeafChild(splitter->getLeafChild(5), 2);
+		right->insertKey(splitter->getKey(3));
+		right->insertKey(splitter->getKey(4));
+	}
+	else{
+		left->setNodeChild(splitter->getNodeChild(0), 0);
+		left->setNodeChild(splitter->getNodeChild(1), 1);
+		left->setNodeChild(splitter->getNodeChild(2), 2);
+		left->insertKey(splitter->getKey(0));
+		left->insertKey(splitter->getKey(1));
+		right->setNodeChild(splitter->getNodeChild(3), 0);
+		right->setNodeChild(splitter->getNodeChild(4), 1);
+		right->setNodeChild(splitter->getNodeChild(5), 2);
+		right->insertKey(splitter->getKey(3));
+		right->insertKey(splitter->getKey(4));
+	}
+	if(splitter->getParent() == NULL){
+		parent = new BodyNode();
+		parent->setNodeChild(left,0);
+		parent->setNodeChild(right,1);
+		parent->insertKey(splitter->getKey(2));
+	}
+	else {
+		parent = splitter->getParent();
+		parent->insertKey(splitter->getKey(2));
+		int index = parent->getKeyIndex(splitter->getKey(2));
+		for(int i = index+1; i<parent->getNumChildren(); i++){
+			parent->setNodeChild(parent->getNodeChild(i), i+1);
+		}
+		parent->setNodeChild(left, index);
+		parent->setNodeChild(right, index + 1);
+		if(parent->isKeysFull() == true||parent->isChildrenFull() == true){
+			return splitBodyNode(parent);
+		}
+	}
+	return parent;
+}
+
+bool BodyNode::isKeysFull()
+{
+	if (numKeys == 5) {
 		return true;
 	}
 	else { 
@@ -210,9 +242,16 @@ bool BodyNode::isFull()
 	}
 }
 
+bool BodyNode::isChildrenFull(){
+	if (numChildren == 6) {
+		return true;
+	}
+	return false;
+}
+
 std::string BodyNode::getKey(int keyNum)
 {
-	if (keyNum < 4) {
+	if (keyNum < 5) {
 		return keys[keyNum];
 	}
 	else {
@@ -220,22 +259,28 @@ std::string BodyNode::getKey(int keyNum)
 	}
 }
 
-GraphNode * BodyNode::getLeaf(int leafNum)
-{
-	if (leafNum < 3) {
-		return leafItems[leafNum];
-	}
-	else {
-		return NULL;
-	}
-}
-
 int BodyNode::getKeyIndex(std::string key)
 {
-	for (int i = 0; i < numContained; i++) {
+	for (int i = 0; i < numKeys; i++) {
 		if (keys[i].compare(key) == 0) {
 			return i;
 		}
 	}
 	return -1;
+}
+
+int BodyNode::getLeftIndex(std::string key){
+	int index = -1;
+	for (int i = 0; i < 4; i++) {
+		if (keys[i] == "") {
+			break;
+		}
+		else {
+			if (key.compare(keys[i]) < 0) {
+				continue;
+			}
+			index++;
+		}
+	}
+	return index;
 }

@@ -5,7 +5,7 @@
 
 #include <string>
 #include <iostream>
-#include "BTreeNode.h"
+#include "BodyNode.h"
 #include "GraphNode.h"
 #include "friendshipGraph.h"
 #include "fseeker.h"
@@ -20,23 +20,25 @@ public:
 
 	void printRangeOccupation(std::string name1, std::string name2);
 
-	GraphNode * initFind(LeafNode * initRoot, std::string find);
+	GraphNode * initFind(std::string find);
 
-	LeafNode * insertFind(BTreeNode ** root, std::string find);
+	BodyNode * insertFind(std::string find);
 
-	GraphNode * find(BTreeNode ** root, std::string find);
+	GraphNode * find(std::string find);
 
 	LeafNode * getFirstLeaf();
 
 	void setFirstLeaf(LeafNode * newFirstLeaf);
 
+	//BTreeNode ** splitBTreeNode(BTreeNode ** splitter, BTreeNode * toAdd);
+
 	//BodyNode * splitLeaf(BodyNode * splitter, GraphNode * toAdd);
 
-	int findLeftIndex(BTreeNode ** node, std::string find);
+	//int findLeftIndex(BTreeNode ** node, std::string find);
 
 
 private:
-	BTreeNode ** root;
+	BodyNode * root;
 	LeafNode * initRoot;
 	int totalContained;
 	LeafNode * firstLeaf;

@@ -3,7 +3,7 @@
 #define BTREENODE_H
 
 #include <string>
-#include "LeafNode.h"
+class LeafNode;
 
 
 
@@ -13,7 +13,7 @@ public:
 	BTreeNode();
 	BTreeNode(bool isPreLeaf);
 
-	std::string getKey();
+	std::string getKey;;
 	void setKey(std::string key);
 
 	BTreeNode ** getLeftChildren();

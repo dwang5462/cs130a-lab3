@@ -4,45 +4,46 @@
 
 #include <string>
 #include "GraphNode.h"
+#include "LeafNode.h"
+
 class BodyNode {
 public:
 	BodyNode();
-	BodyNode(bool isLeaf);
+	BodyNode(bool isPreLeaf);
 	void setParent(BodyNode * parent);
 	BodyNode * getParent();
-	void setMinKey(int minKey);
-	int getMinKey();
-	void setIsLeaf(bool isLeaf);
-	bool getIsLeaf();
-	void setNumContained(int numContained);
-	int getNumContained();
-	void setPrev(BodyNode * prev);
-	BodyNode * getPrev();
-	void setNext(BodyNode* next);
-	BodyNode* getNext();
+	void setIsPreLeaf(bool isPreLeaf);
+	bool getIsPreLeaf();
+	void setNumKeys(int numKeys);
+	int getNumKeys();
+	void setNumChildren(int numChildren);
+	int getNumChildren();
 
 	void printNode();
-	BodyNode * getChild(int pointerNum);
-	void * setChild(BodyNode * newChild, int pointerNum);
-	BodyNode * insertKey(std::string newKey);
-	void insertLeafItem(GraphNode * leafItem);
-	bool isFull();
+	BodyNode * getNodeChild(int pointerNum);
+	LeafNode * getLeafChild(int pointerNum);
+	void * setNodeChild(BodyNode * newChild, int pointerNum);
+	void * setLeafChild(LeafNode * newChild, int pointerNum);
+	void insertKey(std::string newKey);
+	//void insertNodeChild(BodyNode * toAdd);
+	BodyNode * insertLeafItem(GraphNode * leafItem, int leafIndex);
+	BodyNode * splitBodyNode(BodyNode * splitter);
+	bool isKeysFull();
+	bool isChildrenFull();
 	std::string getKey(int keyNum);
 	GraphNode * getLeaf(int leafNum);
-	int getKeyIndex(std::string);
+	int getKeyIndex(std::string key);
+	int getLeftIndex(std::string key);
 
 
 private:
 	BodyNode * parent;
-	int minKeys;
-	std::string keys[4];
-	int numContained;
-	BodyNode * children[5]; 
-	bool isLeaf;
-	GraphNode * leafItems[3];
-	BodyNode* nextLeaf;
-	BodyNode* prevLeaf;
-
+	std::string keys[5];
+	int numKeys;
+	int numChildren;
+	BodyNode * nodeChildren[6]; 
+	bool isPreLeaf;
+	LeafNode * leafChildren[6];
 };
 #endif
 

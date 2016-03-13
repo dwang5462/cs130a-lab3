@@ -12,24 +12,31 @@ BTree::BTree()
 void BTree::insert(GraphNode * insert)
 {
 	if (initRoot != NULL) {
+		initRoot->insertLeafNode(insert);
 		if (!initRoot->isFull()) {
-			initRoot->insertLeafNode(insert);
 			totalContained++;
 		}
 		else {
-			BTreeNode ** newRoot = new BTreeNode*[4];
-			for (int i = 0; i < 4; i++) {
-				newRoot[i] = NULL;
-			}
+			BodyNode * newRoot = new BodyNode(true);
 			root = newRoot;
-			root[0] = initRoot->split(insert);
-			firstLeaf = root[0]->getLeftLeaf();
+			LeafNode * left = new LeafNode();
+			LeafNode * right = new LeafNode();
+			left->insertLeafNode(initRoot->getLeafNode(0));
+			left->insertLeafNode(initRoot->getLeafNode(1));
+			right->insertLeafNode(initRoot->getLeafNode(2));
+			right->insertLeafNode(initRoot->getLeafNode(3));
+			root->insertKey(right->getLeafNode(0)->getKey());
+			root->setLeafChild(left, 0);
+			root->setLeafChild(right, 1);
+			firstLeaf = left;
 			initRoot = NULL;
 			totalContained++;
 		}
 	}
 	else {
-
+		BodyNode * toInsert = insertFind(insert->getKey());
+		int leafIndex = toInsert->getLeftIndex(insert->getKey());
+		BodyNode * topParent = toInsert->insertLeafItem(insert, leafIndex);
 	}
 }
 
@@ -38,7 +45,7 @@ void BTree::printRangeOccupation(std::string name1, std::string name2)
 
 }
 
-GraphNode * BTree::initFind(LeafNode * initRoot, std::string find)
+GraphNode * BTree::initFind(std::string find)
 {
 	for (int i = 0; i < initRoot->getNumLeaves(); i++) {
 		if (initRoot->getLeafNode(i)->getKey() == find) {
@@ -47,32 +54,41 @@ GraphNode * BTree::initFind(LeafNode * initRoot, std::string find)
 	}
 }
 
-LeafNode * BTree::insertFind(BTreeNode ** root, std::string find)
+BodyNode * BTree::insertFind(std::string find)
 {
-	while (root[0]->getPreLeaf() == false) {
-		int toLook = findLeftIndex(root, find);
+	while (root->getIsPreLeaf() == false) {
+		int toLook = root->getLeftIndex(find);
 		if (toLook == -1) {
-			root = root[0]->getLeftChildren();
+			root = root->getNodeChild(0);
 		}
 		else {
-			root = root[toLook]->getRightChildren();
+			root = root->getNodeChild(toLook);
 		}
 	}
-	int leafIndex = findLeftIndex(root, find);
-	if (leafIndex == -1) {
-		return root[0]->getLeftLeaf();
-	}
-	else {
-		return root[leafIndex]->getRightLeaf();
-	}
+	return root;
+	// int leafIndex = root->findLeftIndex(find);
+	// if (leafIndex == -1) {
+	// 	return root->getLeafChild(0);
+	// }
+	// else {
+	// 	return root->getLeafChild(leafIndex);
+	// }
 }
 
-GraphNode * BTree::find(BTreeNode ** root, std::string find)
+GraphNode * BTree::find(std::string find)
 {
-	LeafNode * tmp = insertFind(root, find);
-	for (int i = 0; i < tmp->getNumLeaves(); i++) {
-		if (find.compare(tmp->getLeafNode(i)->getKey()) == 0) {
-			return tmp->getLeafNode(i);
+	BodyNode * tmp = insertFind(find);
+	int index = tmp->getLeftIndex(find);
+	LeafNode * tmp2;
+	if(index == -1){
+		tmp2 = tmp->getLeafChild(0);
+	}
+	else {
+		tmp2 = tmp->getLeafChild(index);
+	}
+	for (int i = 0; i < tmp2->getNumLeaves(); i++) {
+		if (find.compare(tmp2->getLeafNode(i)->getKey()) == 0) {
+			return tmp2->getLeafNode(i);
 		}
 	}
 	return NULL;
@@ -138,7 +154,7 @@ void BTree::setFirstLeaf(LeafNode * newFirstLeaf)
 	}
 	return parent;
 }
-*/
+
 int BTree::findLeftIndex(BTreeNode ** node, std::string find)
 {
 	int index = -1;
@@ -154,4 +170,4 @@ int BTree::findLeftIndex(BTreeNode ** node, std::string find)
 		}
 	}
 	return index;
-}
+}*/

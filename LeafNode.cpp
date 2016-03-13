@@ -3,8 +3,6 @@
 LeafNode::LeafNode()
 {
 	numLeaves = 0;
-	leftParent = NULL;
-	rightParent = NULL;
 	left = NULL;
 	right = NULL;
 }
@@ -59,7 +57,7 @@ GraphNode * LeafNode::getLeafNode(int index)
 
 bool LeafNode::isFull()
 {
-	if (numLeaves == 3)
+	if (numLeaves == 4)
 		return true;
 	else
 		return false;
@@ -85,27 +83,7 @@ void LeafNode::setRightLeaf(LeafNode * rightLeaf)
 	right = rightLeaf;
 }
 
-BTreeNode * LeafNode::getLeftParent()
-{
-	return leftParent;
-}
-
-BTreeNode * LeafNode::getRightParent()
-{
-	return rightParent;
-}
-
-void LeafNode::setLeftParent(BTreeNode * leftParent)
-{
-	this->leftParent = leftParent;
-}
-
-void LeafNode::setRightParent(BTreeNode * rightParent)
-{
-	this->rightParent = rightParent;
-}
-
-BTreeNode * LeafNode::split(GraphNode * toAdd)
+/*BTreeNode * LeafNode::split(GraphNode * toAdd)
 {
 	BTreeNode * parent;
 	GraphNode * tmp[4];
@@ -151,3 +129,4 @@ BTreeNode * LeafNode::split(GraphNode * toAdd)
 
 	return parent;
 }
+*/
