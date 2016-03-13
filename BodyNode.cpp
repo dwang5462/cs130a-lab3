@@ -89,13 +89,21 @@ LeafNode * BodyNode::getLeafChild(int pointerNum){
 
 void * BodyNode::setNodeChild(BodyNode * newChild, int pointerNum)
 {
-	if (pointerNum >= 0 && pointerNum < 6)
+	if (pointerNum >= 0 && pointerNum < 6){
+		if(nodeChildren[pointerNum] == NULL){
+			numChildren++;
+		}
 		nodeChildren[pointerNum] = newChild;
+	}
 }
 
 void * BodyNode::setLeafChild(LeafNode * newChild, int pointerNum){
-	if(pointerNum >= 0 && pointerNum < 6)
+	if(pointerNum >= 0 && pointerNum < 6) {
+		if(leafChildren[pointerNum] == NULL){
+			numChildren++;
+		}
 		leafChildren[pointerNum] = newChild;
+	}
 }
 
 void BodyNode::insertKey(std::string newKey)
@@ -156,15 +164,19 @@ void BodyNode::insertKey(std::string newKey)
 BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 {
 	leafChildren[leafIndex]->insertLeafNode(leafItem);
-	if(leafChildren[leafIndex]->isFull()){
+	if(leafChildren[leafIndex]->isFull() == true){
 		LeafNode * left = new LeafNode();
 		LeafNode * right = new LeafNode();
+		LeafNode * indexLeft = leafChildren[leafIndex]->getLeftLeaf();
+		LeafNode * indexRight = leafChildren[leafIndex]->getRightLeaf();
 		left->insertLeafNode(leafChildren[leafIndex]->getLeafNode(0));
 		left->insertLeafNode(leafChildren[leafIndex]->getLeafNode(1));
 		right->insertLeafNode(leafChildren[leafIndex]->getLeafNode(2));
 		right->insertLeafNode(leafChildren[leafIndex]->getLeafNode(3));
-		if(leafChildren[leafIndex]->getIsFirstLeaf()){
-			left->setIsFirstLeaf(true);
+		if(leafIndex == 0){
+			if(leafChildren[leafIndex]->getIsFirstLeaf()){
+				left->setIsFirstLeaf(true);
+			}
 		}
 		if(isChildrenFull() == false){
 			for(int i = leafIndex+1; i < 6; i++){
@@ -173,7 +185,31 @@ BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 		}
 		leafChildren[leafIndex] = left;
 		leafChildren[leafIndex+1] = right;
+		// numChildren++;
+		// if(zeroLeft != NULL){
+		// 	zeroLeft->setRightLeaf(leafChildren[0]);
+		// }
+		// leafChildren[0]->setLeftLeaf(zeroLeft);
+		// leafChildren[0]->setRightLeaf(leafChildren[1]);
+		// leafChildren[1]->setLeftLeaf(leafChildren[0]);
+		// for (int i = 1; i<numChildren-1; i++){
+		// 	leafChildren[i]->setRightLeaf(leafChildren[i+1]);
+		// 	leafChildren[i+1]->setLeftLeaf(leafChildren[i]);
+		// }
+		// leafChildren[numChildren-1]->setRightLeaf(mostRight);
+		// if(mostRight != NULL) {
+		// 	mostRight->setLeftLeaf(leafChildren[numChildren-1]);
+		// }
+		if(indexLeft != NULL)
+			indexLeft->setRightLeaf(left);
+		if(indexRight != NULL)
+			indexRight->setLeftLeaf(right);
+		left->setLeftLeaf(indexLeft);
+		left->setRightLeaf(right);
+		right->setLeftLeaf(left);
+		right->setRightLeaf(indexRight);
 		std::string toAdd = right->getLeafNode(0)->getKey();
+		numChildren++;
 		insertKey(toAdd);
 		if(isKeysFull()){
 			return splitBodyNode(this);
@@ -182,7 +218,7 @@ BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 	return this;
 }
 
-BodyNode * splitBodyNode(BodyNode * splitter){
+BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 	BodyNode * left = new BodyNode(true);
 	BodyNode * right = new BodyNode(true);
 	BodyNode * parent;

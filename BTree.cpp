@@ -13,7 +13,7 @@ void BTree::insert(GraphNode * insert)
 {
 	if (initRoot != NULL) {
 		initRoot->insertLeafNode(insert);
-		if (!initRoot->isFull()) {
+		if (initRoot->isFull() == false) {
 			totalContained++;
 		}
 		else {
@@ -23,8 +23,13 @@ void BTree::insert(GraphNode * insert)
 			LeafNode * right = new LeafNode();
 			left->insertLeafNode(initRoot->getLeafNode(0));
 			left->insertLeafNode(initRoot->getLeafNode(1));
+			left->setLeftLeaf(initRoot->getLeftLeaf());
+			left->setRightLeaf(right);
+			left->setIsFirstLeaf(true);
 			right->insertLeafNode(initRoot->getLeafNode(2));
 			right->insertLeafNode(initRoot->getLeafNode(3));
+			right->setLeftLeaf(left);
+			right->setRightLeaf(initRoot->getRightLeaf());
 			root->insertKey(right->getLeafNode(0)->getKey());
 			root->setLeafChild(left, 0);
 			root->setLeafChild(right, 1);
@@ -35,9 +40,20 @@ void BTree::insert(GraphNode * insert)
 	}
 	else {
 		BodyNode * toInsert = insertFind(insert->getKey());
-		int leafIndex = toInsert->getLeftIndex(insert->getKey());
+		int leafIndex = toInsert->getLeftIndex(insert->getKey()) + 1;
 		BodyNode * topParent = toInsert->insertLeafItem(insert, leafIndex);
+		while(topParent->getIsPreLeaf() == false){
+			topParent = topParent->getNodeChild(0);
+		}
+		LeafNode * isFirst = topParent->getLeafChild(0);
+		if(isFirst->getIsFirstLeaf()) {
+			firstLeaf = isFirst;
+		}
+		if(topParent->getParent() == NULL) {
+			root = topParent;
+		}
 	}
+	totalContained++;
 }
 
 void BTree::printRangeOccupation(std::string name1, std::string name2)
@@ -104,6 +120,35 @@ void BTree::setFirstLeaf(LeafNode * newFirstLeaf)
 	this->firstLeaf = newFirstLeaf;
 }
 
+void BTree::printAll(){
+	LeafNode * start = firstLeaf;
+	std::cout << "Root: ";
+	for(int i = 0; i < root->getNumKeys(); i++) {
+		std::cout << root->getKey(i) << ",";
+	}
+	std::cout << std::endl;
+	for(int i = 0; i < root->getNumChildren(); i++){
+		std::cout << "Leaf " << i << ": ";
+		for(int j = 0; j<root->getLeafChild(i)->getNumLeaves(); j++){
+			std::cout << root->getLeafChild(i)->getLeafNode(j)->getKey() << ",";
+		}
+		std::cout << std::endl;
+	}
+	std::cout << std::endl;
+	std::cout << "(";
+	int leafNum = 1;
+	while(start != NULL){
+		std::cout << "In Leaf " << leafNum << ": ";
+		for(int i = 0; i<start->getNumLeaves(); i++){
+			std::cout << start->getLeafNode(i)->getKey() << ",";
+		}
+		std::cout << "numLeaves: " << start->getNumLeaves();
+		std::cout << std::endl;
+		start = start->getRightLeaf();
+		leafNum++;
+	}
+	std::cout << ")\n";
+}
 /*BodyNode * BTree::splitLeaf(BodyNode * splitter, GraphNode * toAdd)
 {
 	BodyNode * parent;

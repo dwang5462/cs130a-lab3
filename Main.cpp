@@ -2,6 +2,7 @@
 #include "GraphNode.h"
 #include "friendNode.h"
 #include "fseeker.h"
+#include "BTree.h"
 #include <fstream>
 #include <vector>
 #include <string>
@@ -49,7 +50,7 @@ int main() {
 	std::cout << " Age: " << seeker.getAge(0);
 	std::cout << " Occupation: ";
 	std::cout << seeker.getOccupation(0) << std::endl;
-	g.print();*/
+	g.print();
 	for (int i = 0; i < numAdded; i++) {
 		std::cout << "Name: " << seeker.getName(i) << ", ";
 		std::cout << " Age: " << seeker.getAge(i) << ", " ;
@@ -57,5 +58,35 @@ int main() {
 		std::cout << "Friends: ";
 		g.printFriends(seeker.getName(i));
 		std::cout << ")\n";
-	}
+	}*/
+	BTree b;
+	GraphNode * ant = new GraphNode("ant");
+	GraphNode * bat = new GraphNode("bat");
+	GraphNode * cat = new GraphNode("cat");
+	GraphNode * dat = new GraphNode("dat");
+	GraphNode * fat = new GraphNode("fat");
+	GraphNode * gat = new GraphNode("gat");
+	GraphNode * hat = new GraphNode("hat");
+	GraphNode * jat = new GraphNode("jat");
+	GraphNode * kat = new GraphNode("kat");
+	GraphNode * lat = new GraphNode("lat");
+	GraphNode * mat = new GraphNode("mat");
+	GraphNode * nat = new GraphNode("nat");
+	GraphNode * pat = new GraphNode("pat");
+	GraphNode * rat = new GraphNode("rat");
+	b.insert(ant);
+	b.insert(bat);
+	b.insert(cat);
+	b.insert(dat);
+	b.insert(fat);
+	b.insert(gat);
+	b.insert(hat);
+	b.insert(jat);
+	b.insert(kat);
+	b.insert(lat);
+	b.insert(mat);
+	// b.insert(nat);
+	// b.insert(pat);
+	// b.insert(rat);
+	b.printAll();
 }

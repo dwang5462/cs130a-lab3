@@ -30,6 +30,8 @@ public:
 
 	void setFirstLeaf(LeafNode * newFirstLeaf);
 
+	void printAll();
+
 	//BTreeNode ** splitBTreeNode(BTreeNode ** splitter, BTreeNode * toAdd);
 
 	//BodyNode * splitLeaf(BodyNode * splitter, GraphNode * toAdd);
