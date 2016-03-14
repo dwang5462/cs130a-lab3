@@ -30,7 +30,7 @@ std::string fseeker::getName(int index)
 	fseek(readFile, profileIndex, SEEK_SET);
 	fgets(name, 20, readFile);
 	result = std::string(name);
-	stripWord(result);
+	result = stripWord(result);
 	fclose(readFile);
 	return result;
 }
@@ -44,7 +44,7 @@ std::string fseeker::getAge(int index)
 	fseek(readFile, profileIndex, SEEK_SET);
 	fgets(age, 3, readFile);
 	result = std::string(age);
-	stripWord(result);
+	result = stripWord(result);
 	fclose(readFile);
 	return result;
 }
@@ -58,7 +58,7 @@ std::string fseeker::getOccupation(int index)
 	fseek(readFile, profileIndex, SEEK_SET);
 	fgets(occupation, 30, readFile);
 	result = std::string(occupation);
-	stripWord(result);
+	result = stripWord(result);
 	fclose(readFile);
 	return result;
 }
@@ -77,6 +77,7 @@ void fseeker::insert(std::string name, std::string age, std::string occupation, 
 	char* occupation1 = new char[occupation.length() + 1];
 	memcpy(occupation1, occupation.c_str(), occupation.length() + 1);
 	fputs(occupation1, pFile);
+	fflush(pFile);
 }
 
 bool fseeker::isWordChar(char c) {
@@ -88,7 +89,7 @@ bool fseeker::isWordChar(char c) {
 
 std::string fseeker::stripWord(std::string word) {
 
-	while (!(isWordChar(word[word.length() - 1]))) {
+	while (!(isWordChar(word[word.length() - 1])) && word.length() > 0) {
 		word.erase(word.end() - 1);
 	}
 

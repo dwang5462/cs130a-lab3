@@ -24,7 +24,7 @@ public:
 
 	BodyNode * insertFind(std::string find);
 
-	GraphNode * find(std::string find);
+	LeafNode * findLeaf(std::string find);
 
 	LeafNode * getFirstLeaf();
 

@@ -17,6 +17,8 @@ public:
 	void addFriend(std::string name1, std::string name2);
 	void print();
 	void printFriends(std::string key);
+	bool checkIfFriends(std::string name1, std::string name2);
+	GraphNode * get(int index);
 
 
 

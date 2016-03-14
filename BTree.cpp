@@ -59,10 +59,54 @@ void BTree::insert(GraphNode * insert)
 	totalContained++;
 }
 
-/*std::vector<std::string> BTree::getRange(std::string name1, std::string name2)
+std::vector<std::string> BTree::getRange(std::string name1, std::string name2)
 {
-
-}*/
+	if (name1.compare(name2) > 0) {
+		std::string tmp = name1;
+		name1 = name2;
+		name2 = tmp;
+	}
+	std::vector<std::string> relevant;
+	LeafNode * tmp = findLeaf(name1);
+	int index = 0;
+	for (int i = 0; i < tmp->getNumLeaves(); i++) {
+		if (name1.compare(tmp->getLeafNode(i)->getKey()) == 0) {
+			index = i;
+			break;
+		}
+		if (name1.compare(tmp->getLeafNode(i)->getKey()) > 0) {
+			index++;
+		}
+	}
+	if (index < 3) {
+		for (int i = index; i < tmp->getNumLeaves(); i++) {
+			if (name2.compare(tmp->getLeafNode(i)->getKey()) < 0) {
+				return relevant;
+			}
+			relevant.push_back(tmp->getLeafNode(i)->getKey());
+		}
+	}
+	tmp = tmp->getRightLeaf();
+	int state = 0;
+	while (tmp != NULL) {
+		for (int i = 0; i < tmp->getNumLeaves(); i++) {
+			if (name2.compare(tmp->getLeafNode(i)->getKey()) < 0) {
+				state = 1;
+				break;
+			}
+			relevant.push_back(tmp->getLeafNode(i)->getKey());
+			if (name2.compare(tmp->getLeafNode(i)->getKey()) == 0) {
+				state = 1;
+				break;
+			}
+		}
+		if (state == 1) {
+			break;
+		}
+		tmp = tmp->getRightLeaf();
+	}
+	return relevant;
+}
 
 GraphNode * BTree::initFind(std::string find)
 {
@@ -90,18 +134,13 @@ BodyNode * BTree::insertFind(std::string find)
 	// }
 }
 
-GraphNode * BTree::find(std::string find)
+LeafNode * BTree::findLeaf(std::string find)
 {
 	BodyNode * tmp = insertFind(find);
 	int index = tmp->getLeftIndex(find);
 	LeafNode * tmp2;
 	tmp2 = tmp->getLeafChild(index);
-	for (int i = 0; i < tmp2->getNumLeaves(); i++) {
-		if (find.compare(tmp2->getLeafNode(i)->getKey()) == 0) {
-			return tmp2->getLeafNode(i);
-		}
-	}
-	return NULL;
+	return tmp2;
 }
 
 LeafNode * BTree::getFirstLeaf()

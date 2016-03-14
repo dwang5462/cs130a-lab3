@@ -29,7 +29,6 @@ void friendshipGraph::insertGraphNode(GraphNode * n){
 			index++;
 		}
 	}
-	n->setDataIndex(index);
 	table[index] = n;
 }
 
@@ -86,4 +85,19 @@ void friendshipGraph::printFriends(std::string key)
 {
 	int index = lookup(key);
 	table[index]->printFriendList();
+}
+
+bool friendshipGraph::checkIfFriends(std::string name1, std::string name2)
+{
+	int index = lookup(name1); 
+	for (friendNode * n = table[index]->getAdjRoot(); n != NULL; n = n->next) {
+		if (n->name == name2)
+			return true;
+	}
+	return false;
+}
+
+GraphNode * friendshipGraph::get(int index)
+{
+	return table[index];
 }
