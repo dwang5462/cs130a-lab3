@@ -7,12 +7,15 @@
 #include <vector>
 #include <string>
 
+
+
 int main() {
 	fseeker seeker;
 	friendshipGraph g;
+	BTree b;
 
 	std::ifstream f;
-	f.open("input.txt", std::ios::in);
+	f.open("input1.txt", std::ios::in);
 	int numAdded = 0;
 	if (!f) std::cerr << "File not found" << std::endl;
 	else
@@ -29,6 +32,7 @@ int main() {
 				newNode->addFriend(newfriend);
 			}
 			g.insertGraphNode(newNode);
+			b.insert(newNode);
 			int index = newNode->getDataIndex();
 			int profileIndex = 53 * numAdded;
 			numAdded++;
@@ -59,7 +63,7 @@ int main() {
 		g.printFriends(seeker.getName(i));
 		std::cout << ")\n";
 	}*/
-	BTree b;
+	/*BTree b;
 	GraphNode * ant = new GraphNode("ant");
 	GraphNode * bat = new GraphNode("bat");
 	GraphNode * cat = new GraphNode("cat");
@@ -74,7 +78,7 @@ int main() {
 	GraphNode * nat = new GraphNode("nat");
 	GraphNode * pat = new GraphNode("pat");
 	GraphNode * rat = new GraphNode("rat");
-	b.insert(ant);
+	/*b.insert(ant);
 	b.insert(bat);
 	b.insert(cat);
 	b.insert(dat);
@@ -89,19 +93,25 @@ int main() {
 	b.insert(pat);
 	b.insert(rat);
 
-	// b.insert(ant);
-	// b.insert(nat);
-	// b.insert(bat);
-	// b.insert(mat);
-	// b.insert(cat);
-	// b.insert(lat);
-	// b.insert(dat);
-	// b.insert(kat);
-	// b.insert(fat);
-	// b.insert(jat);
-	// b.insert(gat);
-	// b.insert(hat);
-	// b.insert(pat);
-	// b.insert(rat);
+	b.insert(ant);
+	b.insert(nat);
+	b.insert(bat);
+	b.insert(mat);
+	b.insert(cat);
+	b.insert(lat);
+	b.insert(dat);
+	b.insert(kat);
 	b.printAll();
+	b.insert(fat);
+	b.printAll();
+	b.insert(jat);
+	b.printAll();
+	b.insert(gat);
+	b.printAll();
+	b.insert(hat);
+	b.printAll();
+	b.insert(pat);
+	b.insert(rat);*/
+	b.printAll();
+	return 0;
 }

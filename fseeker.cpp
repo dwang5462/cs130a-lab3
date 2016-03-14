@@ -1,6 +1,8 @@
 #include "fseeker.h"
 #include <fstream>
 
+#pragma warning(disable:4996)
+
 fseeker::fseeker() {
 	pFile = fopen("ProfileData.txt", "w");
 	readFile = NULL;

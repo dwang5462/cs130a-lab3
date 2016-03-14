@@ -87,7 +87,7 @@ LeafNode * BodyNode::getLeafChild(int pointerNum){
 		return this->leafChildren[pointerNum];
 }
 
-void * BodyNode::setNodeChild(BodyNode * newChild, int pointerNum)
+void BodyNode::setNodeChild(BodyNode * newChild, int pointerNum)
 {
 	if (pointerNum >= 0 && pointerNum < 6){
 		if(nodeChildren[pointerNum] == NULL){
@@ -97,7 +97,7 @@ void * BodyNode::setNodeChild(BodyNode * newChild, int pointerNum)
 	}
 }
 
-void * BodyNode::setLeafChild(LeafNode * newChild, int pointerNum){
+void BodyNode::setLeafChild(LeafNode * newChild, int pointerNum){
 	if(pointerNum >= 0 && pointerNum < 6) {
 		if(leafChildren[pointerNum] == NULL){
 			numChildren++;
@@ -125,7 +125,7 @@ void BodyNode::insertKey(std::string newKey)
 					}
 				}
 			}
-			for (int i = index; i < numKeys; i++) {
+			for (int i = numKeys-1; i >= index; i--) {
 				keys[i + 1] = keys[i];
 			}
 			keys[index] = newKey;
@@ -179,7 +179,7 @@ BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 			}
 		}
 		if(isChildrenFull() == false){
-			for(int i = leafIndex+1; i < 6; i++){
+			for(int i = 5; i >= leafIndex+1; i--){
 				leafChildren[i+1] = leafChildren[i];
 			}
 		}
@@ -219,8 +219,8 @@ BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 }
 
 BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
-	BodyNode * left = new BodyNode(true);
-	BodyNode * right = new BodyNode(true);
+	BodyNode * left = new BodyNode();
+	BodyNode * right = new BodyNode();
 	BodyNode * parent;
 	if(splitter->getIsPreLeaf() == true){
 		left->setLeafChild(splitter->getLeafChild(0), 0);
@@ -233,6 +233,8 @@ BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 		right->setLeafChild(splitter->getLeafChild(3),0);
 		right->setLeafChild(splitter->getLeafChild(4),1);
 		right->setLeafChild(splitter->getLeafChild(5),2);
+		left->setIsPreLeaf(true);
+		right->setIsPreLeaf(true);
 
 	}
 	else{
@@ -265,7 +267,7 @@ BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 		parent = splitter->getParent();
 		parent->insertKey(splitter->getKey(2));
 		int index = parent->getKeyIndex(splitter->getKey(2));
-		for(int i = index+1; i<parent->getNumChildren(); i++){
+		for(int i = parent->getNumChildren()-1; i>=index+1; i--){
 			parent->setNodeChild(parent->getNodeChild(i), i+1);
 		}
 		parent->setNodeChild(left, index);
@@ -335,5 +337,5 @@ int BodyNode::getLeftIndex(std::string key){
 			index++;
 		}
 	}
-	return index;
+	return index+1;
 }

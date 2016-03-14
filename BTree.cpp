@@ -40,7 +40,9 @@ void BTree::insert(GraphNode * insert)
 	}
 	else {
 		BodyNode * toInsert = insertFind(insert->getKey());
-		int leafIndex = toInsert->getLeftIndex(insert->getKey()) + 1;
+		//std::cout << "toinsert bodynode: " << toInsert->getKey(0) << std::endl;
+		int leafIndex = toInsert->getLeftIndex(insert->getKey());
+		//std::cout << "leafindex: " << leafIndex << std::endl;
 		BodyNode * topParent = toInsert->insertLeafItem(insert, leafIndex);
 		BodyNode * tmp = topParent;
 		while(tmp->getIsPreLeaf() == false){
@@ -57,7 +59,7 @@ void BTree::insert(GraphNode * insert)
 	totalContained++;
 }
 
-void BTree::printRangeOccupation(std::string name1, std::string name2)
+std::vector<std::string> BTree::getRange(std::string name1, std::string name2)
 {
 
 }
@@ -73,16 +75,12 @@ GraphNode * BTree::initFind(std::string find)
 
 BodyNode * BTree::insertFind(std::string find)
 {
-	while (root->getIsPreLeaf() == false) {
-		int toLook = root->getLeftIndex(find);
-		if (toLook == -1) {
-			root = root->getNodeChild(0);
-		}
-		else {
-			root = root->getNodeChild(toLook);
-		}
+	BodyNode * tmp = root;
+	while (tmp->getIsPreLeaf() == false) {
+		int toLook = tmp->getLeftIndex(find);
+		tmp = tmp->getNodeChild(toLook);
 	}
-	return root;
+	return tmp;
 	// int leafIndex = root->findLeftIndex(find);
 	// if (leafIndex == -1) {
 	// 	return root->getLeafChild(0);
@@ -97,12 +95,7 @@ GraphNode * BTree::find(std::string find)
 	BodyNode * tmp = insertFind(find);
 	int index = tmp->getLeftIndex(find);
 	LeafNode * tmp2;
-	if(index == -1){
-		tmp2 = tmp->getLeafChild(0);
-	}
-	else {
-		tmp2 = tmp->getLeafChild(index);
-	}
+	tmp2 = tmp->getLeafChild(index);
 	for (int i = 0; i < tmp2->getNumLeaves(); i++) {
 		if (find.compare(tmp2->getLeafNode(i)->getKey()) == 0) {
 			return tmp2->getLeafNode(i);
@@ -130,6 +123,7 @@ void BTree::printAll(){
 	std::cout << "numkeys: " << root->getNumKeys();
 	std::cout << std::endl;
 	std::cout << "nodes: \n";
+	printNodes(root);
 	//std::cout << root->getNodeChild(0)->getKey(0) <<std::endl;
 	// for(int i = 0; i < root->getNumChildren(); i++){
 	// 	std::cout << "Leaf " << i << ": ";
@@ -154,17 +148,21 @@ void BTree::printAll(){
 	std::cout << ")\n";
 }
 
-void BTree::printNodes(BodyNode * root){
-	if(root == NULL){
+void BTree::printNodes(BodyNode * tmp){
+	if (tmp == NULL) {
 		return;
 	}
-	for(int i = 0; i<root->getNumChildren(); i++){
-		root = root->getNodeChild(i);
+	for(int i = 0; i<tmp->getNumChildren(); i++){
+			printNodes(tmp->getNodeChild(i));
 	}
-	for(int i = 0;i<root->getNumKeys(); i++){
-		std::cout << root->getKey(i) << ",";
+	for (int i = 0; i < tmp->getNumKeys(); i++) {
+		std::cout << tmp->getKey(i) << ",";
 	}
 	std::cout << std::endl;
+}
+int BTree::getTotalContained()
+{
+	return totalContained;
 }
 /*BodyNode * BTree::splitLeaf(BodyNode * splitter, GraphNode * toAdd)
 {

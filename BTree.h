@@ -34,6 +34,8 @@ public:
 
 	void printNodes(BodyNode * root);
 
+	int getTotalContained();
+
 	//BTreeNode ** splitBTreeNode(BTreeNode ** splitter, BTreeNode * toAdd);
 
 	//BodyNode * splitLeaf(BodyNode * splitter, GraphNode * toAdd);

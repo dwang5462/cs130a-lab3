@@ -22,8 +22,8 @@ public:
 	void printNode();
 	BodyNode * getNodeChild(int pointerNum);
 	LeafNode * getLeafChild(int pointerNum);
-	void * setNodeChild(BodyNode * newChild, int pointerNum);
-	void * setLeafChild(LeafNode * newChild, int pointerNum);
+	void setNodeChild(BodyNode * newChild, int pointerNum);
+	void setLeafChild(LeafNode * newChild, int pointerNum);
 	void insertKey(std::string newKey);
 	//void insertNodeChild(BodyNode * toAdd);
 	BodyNode * insertLeafItem(GraphNode * leafItem, int leafIndex);
