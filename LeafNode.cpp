@@ -41,7 +41,7 @@ void LeafNode::insertLeafNode(GraphNode * insert)
 					}
 				}
 			}
-			for (int i = index; i < numLeaves; i++) {
+			for (int i = numLeaves-1; i >= index; i--) {
 				leaves[i + 1] = leaves[i];
 			}
 			leaves[index] = insert;

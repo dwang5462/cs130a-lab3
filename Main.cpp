@@ -63,7 +63,7 @@ int main() {
 		g.printFriends(seeker.getName(i));
 		std::cout << ")\n";
 	}*/
-	/*BTree b;
+	//BTree b;
 	GraphNode * ant = new GraphNode("ant");
 	GraphNode * bat = new GraphNode("bat");
 	GraphNode * cat = new GraphNode("cat");

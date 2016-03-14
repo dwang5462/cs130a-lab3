@@ -59,10 +59,10 @@ void BTree::insert(GraphNode * insert)
 	totalContained++;
 }
 
-std::vector<std::string> BTree::getRange(std::string name1, std::string name2)
+/*std::vector<std::string> BTree::getRange(std::string name1, std::string name2)
 {
 
-}
+}*/
 
 GraphNode * BTree::initFind(std::string find)
 {
@@ -116,6 +116,7 @@ void BTree::setFirstLeaf(LeafNode * newFirstLeaf)
 
 void BTree::printAll(){
 	LeafNode * start = firstLeaf;
+	LeafNode * start1 = firstLeaf;
 	std::cout << "Root: ";
 	for(int i = 0; i < root->getNumKeys(); i++) {
 		std::cout << root->getKey(i) << ",";
@@ -137,15 +138,24 @@ void BTree::printAll(){
 	int leafNum = 1;
 	while(start != NULL){
 		std::cout << "In Leaf " << leafNum << ": ";
-		for(int i = 0; i<2; i++){
-			std::cout << start->getLeafNode(i)->getKey() << ",";
+		for(int i = 0; i<3; i++){
+			if(start->getLeafNode(i) != NULL)
+				std::cout << start->getLeafNode(i)->getKey() << ",";
 		}
 		std::cout << "numLeaves: " << start->getNumLeaves();
 		std::cout << std::endl;
 		start = start->getRightLeaf();
 		leafNum++;
 	}
+	while (start1 != NULL) {
+		for (int i = 0; i<3; i++) {
+			if (start1->getLeafNode(i) != NULL)
+				std::cout << start1->getLeafNode(i)->getKey() << ",";
+		}
+		start1 = start1->getRightLeaf();
+	}
 	std::cout << ")\n";
+
 }
 
 void BTree::printNodes(BodyNode * tmp){

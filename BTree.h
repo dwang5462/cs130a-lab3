@@ -18,7 +18,7 @@ public:
 
 	void insert(GraphNode * insert);
 
-	void printRangeOccupation(std::string name1, std::string name2);
+	std::vector<std::string> getRange(std::string name1, std::string name2);
 
 	GraphNode * initFind(std::string find);
 
