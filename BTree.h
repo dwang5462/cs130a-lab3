@@ -32,6 +32,8 @@ public:
 
 	void printAll();
 
+	void printNodes(BodyNode * root);
+
 	//BTreeNode ** splitBTreeNode(BTreeNode ** splitter, BTreeNode * toAdd);
 
 	//BodyNode * splitLeaf(BodyNode * splitter, GraphNode * toAdd);

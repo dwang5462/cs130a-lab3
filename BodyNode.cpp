@@ -228,21 +228,28 @@ BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 		left->setLeafChild(splitter->getLeafChild(2), 2);
 		left->insertKey(splitter->getKey(0));
 		left->insertKey(splitter->getKey(1));
-		right->setLeafChild(splitter->getLeafChild(3), 0);
-		right->setLeafChild(splitter->getLeafChild(4), 1);
-		right->setLeafChild(splitter->getLeafChild(5), 2);
 		right->insertKey(splitter->getKey(3));
 		right->insertKey(splitter->getKey(4));
+		right->setLeafChild(splitter->getLeafChild(3),0);
+		right->setLeafChild(splitter->getLeafChild(4),1);
+		right->setLeafChild(splitter->getLeafChild(5),2);
+
 	}
 	else{
 		left->setNodeChild(splitter->getNodeChild(0), 0);
 		left->setNodeChild(splitter->getNodeChild(1), 1);
 		left->setNodeChild(splitter->getNodeChild(2), 2);
+		left->getNodeChild(0)->setParent(left);
+		left->getNodeChild(1)->setParent(left);
+		left->getNodeChild(2)->setParent(left);
 		left->insertKey(splitter->getKey(0));
 		left->insertKey(splitter->getKey(1));
 		right->setNodeChild(splitter->getNodeChild(3), 0);
 		right->setNodeChild(splitter->getNodeChild(4), 1);
 		right->setNodeChild(splitter->getNodeChild(5), 2);
+		right->getNodeChild(0)->setParent(right);
+		right->getNodeChild(1)->setParent(right);
+		right->getNodeChild(2)->setParent(right);
 		right->insertKey(splitter->getKey(3));
 		right->insertKey(splitter->getKey(4));
 	}
@@ -250,6 +257,8 @@ BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 		parent = new BodyNode();
 		parent->setNodeChild(left,0);
 		parent->setNodeChild(right,1);
+		left->setParent(parent);
+		right->setParent(parent);
 		parent->insertKey(splitter->getKey(2));
 	}
 	else {
@@ -261,10 +270,18 @@ BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 		}
 		parent->setNodeChild(left, index);
 		parent->setNodeChild(right, index + 1);
-		if(parent->isKeysFull() == true||parent->isChildrenFull() == true){
-			return splitBodyNode(parent);
-		}
+		left->setParent(parent);
+		right->setParent(parent);
 	}
+	if(parent->isKeysFull() == true||parent->isChildrenFull() == true){
+			return splitBodyNode(parent);
+	}
+	// 
+	//std::cout << "Parent Keys: ";
+	// for(int i = 0; i<parent->getNumKeys(); i++){
+	// 	std::cout << parent->getKey(i) << ",";
+	// }
+	// std::cout << std::endl;
 	return parent;
 }
 

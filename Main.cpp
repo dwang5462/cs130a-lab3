@@ -85,7 +85,22 @@ int main() {
 	b.insert(kat);
 	b.insert(lat);
 	b.insert(mat);
+	b.insert(nat);
+	b.insert(pat);
+	b.insert(rat);
+
+	// b.insert(ant);
 	// b.insert(nat);
+	// b.insert(bat);
+	// b.insert(mat);
+	// b.insert(cat);
+	// b.insert(lat);
+	// b.insert(dat);
+	// b.insert(kat);
+	// b.insert(fat);
+	// b.insert(jat);
+	// b.insert(gat);
+	// b.insert(hat);
 	// b.insert(pat);
 	// b.insert(rat);
 	b.printAll();
