@@ -17,7 +17,7 @@ int main() {
 		BTree b;
 
 		std::ifstream f;
-		f.open("input2.txt", std::ios::in);
+		f.open("input1.txt", std::ios::in);
 		int numAdded = 0;
 		if (!f) std::cerr << "File not found" << std::endl;
 		else
