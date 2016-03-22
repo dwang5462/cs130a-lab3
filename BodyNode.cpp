@@ -134,33 +134,6 @@ void BodyNode::insertKey(std::string newKey)
 	}
 }
 
-// void insertNodeChild(BodyNode * toAdd){
-// 	if (!isChildrenFull()) {
-// 		if (numChildren == 0) {
-// 			nodeChildren[0] = toAdd;
-// 		}
-// 		else {
-// 			//create for loop comparisons here
-// 			int index = 0;
-// 			if (toAdd.compare(nodeChildren[numChildren - 1]) > 0)
-// 				index = numChildren;
-// 			else {
-// 				for (int i = 0; i < numChildren; i++) {
-// 					if (newKey.compare(keys[i] < 0) {
-// 						index = i;
-// 						break;
-// 					}
-// 				}
-// 			}
-// 			for (int i = index; i < numKeys; i++) {
-// 				keys[i + 1] = keys[i];
-// 			}
-// 			keys[index] = newKey;
-// 		}
-// 		numKeys++;
-// 	}
-// }
-
 BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 {
 	leafChildren[leafIndex]->insertLeafNode(leafItem);
@@ -185,21 +158,7 @@ BodyNode * BodyNode::insertLeafItem(GraphNode * leafItem, int leafIndex)
 		}
 		leafChildren[leafIndex] = left;
 		leafChildren[leafIndex+1] = right;
-		// numChildren++;
-		// if(zeroLeft != NULL){
-		// 	zeroLeft->setRightLeaf(leafChildren[0]);
-		// }
-		// leafChildren[0]->setLeftLeaf(zeroLeft);
-		// leafChildren[0]->setRightLeaf(leafChildren[1]);
-		// leafChildren[1]->setLeftLeaf(leafChildren[0]);
-		// for (int i = 1; i<numChildren-1; i++){
-		// 	leafChildren[i]->setRightLeaf(leafChildren[i+1]);
-		// 	leafChildren[i+1]->setLeftLeaf(leafChildren[i]);
-		// }
-		// leafChildren[numChildren-1]->setRightLeaf(mostRight);
-		// if(mostRight != NULL) {
-		// 	mostRight->setLeftLeaf(leafChildren[numChildren-1]);
-		// }
+
 		if(indexLeft != NULL)
 			indexLeft->setRightLeaf(left);
 		if(indexRight != NULL)
@@ -339,3 +298,5 @@ int BodyNode::getLeftIndex(std::string key){
 	}
 	return index+1;
 }
+
+

@@ -28,7 +28,7 @@ std::string fseeker::getName(int index)
 	readFile = fopen("ProfileData.txt","r");
 	int profileIndex = index * 53;
 	fseek(readFile, profileIndex, SEEK_SET);
-	fgets(name, 20, readFile);
+	fgets(name, 21, readFile);
 	result = std::string(name);
 	result = stripWord(result);
 	fclose(readFile);
@@ -42,7 +42,7 @@ std::string fseeker::getAge(int index)
 	readFile = fopen("ProfileData.txt", "r");
 	int profileIndex = index * 53 + 20;
 	fseek(readFile, profileIndex, SEEK_SET);
-	fgets(age, 3, readFile);
+	fgets(age, 4, readFile);
 	result = std::string(age);
 	result = stripWord(result);
 	fclose(readFile);
@@ -56,7 +56,7 @@ std::string fseeker::getOccupation(int index)
 	readFile = fopen("ProfileData.txt", "r");
 	int profileIndex = index * 53 + 23;
 	fseek(readFile, profileIndex, SEEK_SET);
-	fgets(occupation, 30, readFile);
+	fgets(occupation, 31, readFile);
 	result = std::string(occupation);
 	result = stripWord(result);
 	fclose(readFile);

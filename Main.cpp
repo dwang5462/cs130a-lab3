@@ -17,9 +17,12 @@ int main() {
 		BTree b;
 
 		std::ifstream f;
-		f.open("input2.txt", std::ios::in);
+		f.open("input1.txt", std::ios::in);
 		int numAdded = 0;
-		if (!f) std::cerr << "File not found" << std::endl;
+		if (!f){
+		  std::cerr << "File not found" << std::endl;
+		  exit(1);
+		}
 		else
 		{
 
@@ -43,35 +46,26 @@ int main() {
 				b.insert(newNode);
 				int index = newNode->getDataIndex();
 				seeker.insert(words[0], words[1], words[2], numAdded);
-				//int profileIndex = 53 * numAdded;
 				numAdded++;
-				/*fseek(seeker.pFile, profileIndex, SEEK_SET);
-				char* name = new char[words[0].size() + 1];
-				memcpy(name, words[0].c_str(), words[0].size() + 1);
-				fputs(name, seeker.pFile);
-				fseek(seeker.pFile, 20 - strlen(name), SEEK_CUR);
-				char* age = new char[words[1].size() + 1];
-				memcpy(age, words[1].c_str(), words[1].size() + 1);
-				fputs(age, seeker.pFile);
-				fseek(seeker.pFile, 3 - strlen(age), SEEK_CUR);
-				char* occupation = new char[words[2].size() + 1];
-				memcpy(occupation, words[2].c_str(), words[2].size() + 1);
-				fputs(occupation, seeker.pFile);*/
 			}
 
 			fflush(seeker.pFile);
 	
 		}
+		std::cout << "Welcome to Davids' World!\n";
 		while (true)
 		{
+		  std::cout << "Commands are: PrintAll, PrintRange, Insert, AddFriend, ListFriendsInfo, and Exit" << std::endl;
+		  std::cout << "Please enter command: ";
 			std::string str;
 			std::getline(std::cin, str);
 			if (std::cin.eof())
 			{
 				break;
 			}
-			if (str.compare("exit") == 0)
+			if (str.compare("Exit") == 0)
 			{
+			  std::cout << "Thanks for visiting Davids' World!\n";
 				break;
 			}
 			else if (str.compare("PrintAll") == 0)
@@ -87,6 +81,7 @@ int main() {
 			}
 			else if (str.compare("PrintRange") == 0)
 			{
+			  std::cout << "Please enter two names on separate lines.\n";
 				std::string name1;
 				std::string name2;
 				std::getline(std::cin, name1);
@@ -105,6 +100,7 @@ int main() {
 			}
 			else if (str.compare("Insert") == 0)
 			{
+			  std::cout << "Please enter name, age and occupation on separate lines.\n";
 				std::string name;
 				std::string age;
 				std::string occupation;
@@ -125,6 +121,7 @@ int main() {
 			}
 			else if (str.compare("AddFriend") == 0)
 			{
+			  std::cout << "Please enter two names on separate lines that already exist in the network.\n";
 				std::string name1;
 				std::string name2;
 				std::getline(std::cin, name1);
@@ -148,6 +145,7 @@ int main() {
 			}
 			else if (str.compare("ListFriendsInfo") == 0)
 			{
+			  std::cout << "Please enter a name to find all friends info.\n";
 				std::string name;
 				std::getline(std::cin, name);
 				if (g.lookup(name) == -1) {
