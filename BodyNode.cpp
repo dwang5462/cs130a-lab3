@@ -113,7 +113,6 @@ void BodyNode::insertKey(std::string newKey)
 			keys[0] = newKey;
 		}
 		else {
-			//create for loop comparisons here
 			int index = 0;
 			if (newKey.compare(keys[numKeys - 1]) > 0)
 				index = numKeys;
@@ -237,12 +236,6 @@ BodyNode * BodyNode::splitBodyNode(BodyNode * splitter){
 	if(parent->isKeysFull() == true||parent->isChildrenFull() == true){
 			return splitBodyNode(parent);
 	}
-	// 
-	//std::cout << "Parent Keys: ";
-	// for(int i = 0; i<parent->getNumKeys(); i++){
-	// 	std::cout << parent->getKey(i) << ",";
-	// }
-	// std::cout << std::endl;
 	return parent;
 }
 

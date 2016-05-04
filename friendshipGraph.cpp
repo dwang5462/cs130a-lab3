@@ -51,15 +51,6 @@ int friendshipGraph::lookup(std::string key) {
 void friendshipGraph::addFriend(std::string name1, std::string name2){
 	int index1 = lookup(name1);
 	int index2 = lookup(name2);
-	/*if (index1 < 0 && index2 >= 0) {
-		friendNode * newFriend1 = new friendNode(name1, NULL);
-		table[index2]->addFriend(newFriend1);
-	}
-	if (index2 < 0 && index1 >= 0) {
-		friendNode * newFriend2 = new friendNode(name2, NULL);
-		table[index1]->addFriend(newFriend2);
-	}
-	*/
 	if(index1 < 0 || index2 < 0) {
 		return;
 	}

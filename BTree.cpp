@@ -40,9 +40,7 @@ void BTree::insert(GraphNode * insert)
 	}
 	else {
 		BodyNode * toInsert = insertFind(insert->getKey());
-		//std::cout << "toinsert bodynode: " << toInsert->getKey(0) << std::endl;
 		int leafIndex = toInsert->getLeftIndex(insert->getKey());
-		//std::cout << "leafindex: " << leafIndex << std::endl;
 		BodyNode * topParent = toInsert->insertLeafItem(insert, leafIndex);
 		BodyNode * tmp = topParent;
 		while(tmp->getIsPreLeaf() == false){
@@ -125,13 +123,6 @@ BodyNode * BTree::insertFind(std::string find)
 		tmp = tmp->getNodeChild(toLook);
 	}
 	return tmp;
-	// int leafIndex = root->findLeftIndex(find);
-	// if (leafIndex == -1) {
-	// 	return root->getLeafChild(0);
-	// }
-	// else {
-	// 	return root->getLeafChild(leafIndex);
-	// }
 }
 
 LeafNode * BTree::findLeaf(std::string find)
@@ -164,15 +155,6 @@ void BTree::printAll(){
 	std::cout << std::endl;
 	std::cout << "nodes: \n";
 	printNodes(root);
-	//std::cout << root->getNodeChild(0)->getKey(0) <<std::endl;
-	// for(int i = 0; i < root->getNumChildren(); i++){
-	// 	std::cout << "Leaf " << i << ": ";
-	// 	for(int j = 0; j<root->getLeafChild(i)->getNumLeaves(); j++){
-	// 		std::cout << root->getLeafChild(i)->getLeafNode(j)->getKey() << ",";
-	// 	}
-	// 	std::cout << std::endl;
-	// }
-	// std::cout << std::endl;
 	std::cout << "(\n";
 	int leafNum = 1;
 	while(start != NULL){
@@ -213,70 +195,3 @@ int BTree::getTotalContained()
 {
 	return totalContained;
 }
-/*BodyNode * BTree::splitLeaf(BodyNode * splitter, GraphNode * toAdd)
-{
-	BodyNode * parent;
-	GraphNode * tmp[4];
-	BodyNode * left = new BodyNode(true);
-	BodyNode * right = new BodyNode(true);
-	for (int i = 0; i < splitter->getNumContained(); i++) {
-		tmp[i] = splitter->getLeaf(i);
-	}
-	int index = 0;
-	if (toAdd->getKey().compare(tmp[2]->getKey()) > 0)
-		index = 3;
-	else {
-		for (int i = 0; i < 3; i++) {
-			if (toAdd->getKey().compare(tmp[i]->getKey()) < 0) {
-				index = i;
-				break;
-			}
-		}
-	}
-	for (int i = index; i < 3; i++) {
-		tmp[i + 1] = tmp[i];
-	}
-	tmp[index] = toAdd;
-	left->insertLeafItem(tmp[0]);
-	left->insertLeafItem(tmp[1]);
-	left->setPrev(splitter->getPrev());
-	left->setNext(right);
-	right->insertLeafItem(tmp[2]);
-	right->insertLeafItem(tmp[3]);
-	right->setPrev(left);
-	right->setNext(splitter->getNext());
-
-	if (splitter->getParent() == NULL) {
-		parent = new BodyNode();
-		left->setParent(parent);
-		right->setParent(parent);
-		parent->insertKey(tmp[2]->getKey());
-		parent->setChild(left, 0);
-		parent->setChild(right, 1);
-	}
-	else {
-		parent = splitter->getParent();
-		BodyNode * parent = parent->insertKey(tmp[2]->getKey());
-		int index = parent->getKeyIndex(tmp[2]->getKey());
-		parent->setChild(left, index);
-		parent->setChild(right, index + 1);
-	}
-	return parent;
-}
-
-int BTree::findLeftIndex(BTreeNode ** node, std::string find)
-{
-	int index = -1;
-	for (int i = 0; i < 4; i++) {
-		if (node[i] == NULL) {
-			break;
-		}
-		else {
-			if (find.compare(node[i]->getKey()) < 0) {
-				continue;
-			}
-			index++;
-		}
-	}
-	return index;
-}*/

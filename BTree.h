@@ -36,12 +36,6 @@ public:
 
 	int getTotalContained();
 
-	//BTreeNode ** splitBTreeNode(BTreeNode ** splitter, BTreeNode * toAdd);
-
-	//BodyNode * splitLeaf(BodyNode * splitter, GraphNode * toAdd);
-
-	//int findLeftIndex(BTreeNode ** node, std::string find);
-
 
 private:
 	BodyNode * root;
